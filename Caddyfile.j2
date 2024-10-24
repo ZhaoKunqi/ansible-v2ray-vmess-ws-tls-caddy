@@ -1,0 +1,6 @@
+{{custom_domain_name}} {
+    encode gzip
+	file_server
+    root * /usr/share/caddy
+    reverse_proxy /{{custom_path}} 127.0.0.1:11451
+}
