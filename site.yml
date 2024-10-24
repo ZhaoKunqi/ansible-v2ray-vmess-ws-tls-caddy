@@ -11,7 +11,7 @@
         dest: "{{ lookup('env', 'PWD') }}/install-release.sh"
 
     - name: "[Install V2Ray] Install V2Ray with V2Fly quick install script"
-      shell: "sh {{ lookup('env', 'PWD') }}/install-release.sh"
+      shell: "bash {{ lookup('env', 'PWD') }}/install-release.sh"
 
     - name: "[Security] Make sure Firewalld are preset and updated"
       yum:
