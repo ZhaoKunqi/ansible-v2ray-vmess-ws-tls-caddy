@@ -17,7 +17,9 @@
 1. 安装需要用到的软件包
 
 ```
-dnf install git ansible-core -y
+dnf install git epel-release -y
+dnf install ansible -y
+ansible-galaxy collection install ansible.posix
 ```
 
 2. 获取Ansible Playbook
@@ -63,8 +65,6 @@ ansible-playbook site.yml
 ## 2024年10月24日: 
 
 改善了安全性，现在无论VPS厂商是否删除/关闭firewalld，都会重新加载firewalld并配置好相关防火墙规则。
-
-改善了安全性，现在无论VPS厂商是否设置selinux为disabled/enforcing/permissive，都会将selinux策略设置为enforcing模式。
 
 降低了复杂度，现在会使用Caddy来管理ACME/反向代理/伪装页面。
 
