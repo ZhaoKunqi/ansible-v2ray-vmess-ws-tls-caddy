@@ -19,7 +19,6 @@
 ```
 dnf install git epel-release -y
 dnf install ansible -y
-ansible-galaxy collection install ansible.posix //可能不需要这步
 ```
 
 2. 获取Ansible Playbook
@@ -54,8 +53,16 @@ uuid: '640b714c-9f02-4234-9d16-c1a1464f1385'
 
 保存退出以后，运行Ansible Playbook
 
+强制打开Firewalld和SELinux的playbook
+
 ```
 ansible-playbook site.yml
+```
+
+如果不需要安全性，选择关闭防火墙与SELinux，请选择plain.yml这个playbook
+
+```
+ansible-playbook plain.yml
 ```
 
 如果Ansible正常运行完，那说明Caddy服务器和V2Ray服务器都部署好了，您可以尝试连接。
