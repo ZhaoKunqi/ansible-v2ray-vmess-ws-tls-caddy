@@ -49,6 +49,7 @@
       ansible.posix.selinux:                                                                                                                             
         policy: targeted
         state: enforcing
+      ignore_errors: true
 
     - name: "[Install Caddy] Install dnf-command(copr)"
       dnf:
