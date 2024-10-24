@@ -17,7 +17,7 @@
 1. 安装需要用到的软件包
 
 ```
-dnf install git ansible -y
+dnf install git ansible-core -y
 ```
 
 2. 获取Ansible Playbook
