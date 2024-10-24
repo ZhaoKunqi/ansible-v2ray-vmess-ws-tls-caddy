@@ -1,0 +1,68 @@
+---
+- name: V2Ray+Caddy vmess+ws+tls deploy
+  become: True
+  hosts: localhost
+  vars_files:
+    - config.yml
+  tasks:
+    - name: "[Install V2Ray] Download V2Fly quick install script"
+      get_url:
+        url: https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
+        dest: "{{ lookup('env', 'PWD') }}/install-release.sh"
+
+    - name: "[Install V2Ray] Install V2Ray with V2Fly quick install script"
+      shell: "bash {{ lookup('env', 'PWD') }}/install-release.sh"
+
+    - name: stop firewalld service
+      service:
+        name: firewalld
+        state: stopped
+        enabled: False
+      ignore_errors: True
+        
+    - name: replace selinux enforcing with permissive in /etc/selinux/config
+      ansible.builtin.replace:
+        path: /etc/selinux/config
+        regexp: '^SELINUX=enforcing$'
+        replace: 'SELINUX=permissive'
+
+    - name: setenforce 0
+      shell: setenforce 0
+      ignore_errors: True
+
+    - name: "[Install Caddy] Install dnf-command(copr)"
+      dnf:
+        name: dnf-command(copr)
+        state: present
+
+    - name: "[Install Caddy] Enable Caddy Copr repository"
+      shell: "dnf copr enable @caddy/caddy -y"
+
+    - name: "[Install Caddy] Install Caddy"
+      dnf:
+        name: caddy
+        state: present
+
+    - name: "[Bootstrap] Generate Caddy configuration file from template"
+      template:
+        src: Caddyfile.j2
+        dest: /etc/caddy/Caddyfile
+        mode: '0644'
+
+    - name: "[Template] Generate V2Ray configuration file from template"
+      template:
+        src: v2ray.conf.json.j2
+        dest: /usr/local/etc/v2ray/config.json
+        mode: '0644'
+
+    - name: "[Bootstrap] enable and restart V2Ray serivce"
+      service:
+        name: v2ray
+        enabled: True
+        state: restarted
+
+    - name: "[Bootstrap] enable and restart Caddy serivce"
+      service:
+        name: caddy
+        enabled: True
+        state: restarted
