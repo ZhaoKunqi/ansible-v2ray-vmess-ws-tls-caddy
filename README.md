@@ -59,7 +59,9 @@ uuid: '640b714c-9f02-4234-9d16-c1a1464f1385'
 ansible-playbook site.yml
 ```
 
-如果不需要安全性，选择关闭防火墙与SELinux，请选择plain.yml这个playbook
+如果不需要额外安全性或者VPS服务商提供的VPS是魔改过的镜像，安全功能完整的Ansible Playbook可能无法运行。
+
+若无法使用的情况下，可以选择plain.yml这个playbook来执行，但会有安全风险请注意。
 
 ```
 ansible-playbook plain.yml
@@ -67,7 +69,15 @@ ansible-playbook plain.yml
 
 如果Ansible正常运行完，那说明Caddy服务器和V2Ray服务器都部署好了，您可以尝试连接。
 
+# 待办事项
+
+## 通过Ansible新版本特性将site.yml和plain.yml合为同一个Playbook方便使用。
+
 # 更新日志
+
+## 2024年11月7日：
+
+更新了文档与使用说明
 
 ## 2024年10月24日: 
 
